@@ -62,7 +62,7 @@ input CreatePostInput {
 input CreateProductInput {
   avatar: ID!
   category: ID!
-  content: String!
+  content: JSON!
   description: String!
   name: String!
   price: Int!
@@ -89,7 +89,9 @@ input GetCountCategoriesFilter {
 }
 
 input GetCountProductsFilter {
-  name: String!
+  category: ID
+  name: String
+  tags: [ID!]
 }
 
 input GetProductsFilter {
@@ -97,7 +99,6 @@ input GetProductsFilter {
   limit: Int!
   name: String
   offset: Int!
-  price: Float!
   sort: String!
   tags: [ID!]
 }
@@ -172,7 +173,7 @@ input PostsFilter {
 type Product {
   avatar: Image!
   category: Category!
-  content: String!
+  content: JSON!
   createdAt: Float!
   description: String!
   id: ID!
@@ -188,12 +189,12 @@ type Product {
 type Query {
   categories(filter: GetCategoriesFilter!): [Category!]!
   categoriesCount(filter: GetCountCategoriesFilter!): Float!
-  countProducts(filter: GetCountProductsFilter!): Float!
   me: User!
   post(filter: PostFilter!): Post!
   posts(filter: PostsFilter!): [Post!]!
   product(filter: GetProductsFilter!): Product!
   products(filter: GetProductsFilter!): [Product!]!
+  productsCount(filter: GetCountProductsFilter!): Float!
   tags(filter: GetCategoriesFilter!): [Tag!]!
 }
 
@@ -246,7 +247,7 @@ input UpdatePostInput {
 input UpdateProductInput {
   avatar: ID
   category: ID
-  content: String
+  content: JSON
   description: String
   name: String
   price: Float!
