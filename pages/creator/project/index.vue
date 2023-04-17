@@ -32,15 +32,19 @@
 
           <div class="flex">
             <div class="_avatar h-[160px] w-[266px] shrink-0 before:z-[3]">
-              <a-form-item name="avatar" label="Price" />
+              <a-form-item name="price" label="Price">
+                <a-input-number class="!w-full" />
+              </a-form-item>
+
+              <a-form-item name="sale" label="Sale">
+                <a-input-number class="!w-full" />
+              </a-form-item>
             </div>
 
             <a-form-item name="description" class="!ml-7 w-full">
-              <textarea
-                v-model="form.description"
-                class="relative h-[160px] w-full rounded-md bg-gray-100 p-4 text-[15px] text-gray-500 focus:outline-0"
-                placeholder="Product description"
-              />
+              <creator-product-category v-model:value="form.category" />
+
+              <creator-product-tags v-model:value="form.tags" />
             </a-form-item>
           </div>
 
