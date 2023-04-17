@@ -9,7 +9,14 @@
         Add New
       </a-button>
     </includes-teleport>
-    <products-list :products="products" class="mt-5 px-5" />
+
+    <div class="px-5">
+      <products-search v-model:value="vars.filter" />
+
+      <client-only>
+        <products-list :products="products" class="mt-6" />
+      </client-only>
+    </div>
   </div>
 </template>
 
@@ -29,7 +36,7 @@ const vars = reactive<ProductsVariables>({
   }
 })
 
-const { result } = useQuery<Products, ProductsVariables>(PRODUCTS, vars)
+const { result } = useQuery<Products, ProductsVariables>(PRODUCTS, vars, { debounce: 300 })
 const products = computed(() => result.value?.products || [])
 
 const countFilter = computed<ProductsCountVariables>(() => ({
@@ -39,7 +46,7 @@ const countFilter = computed<ProductsCountVariables>(() => ({
     name: vars.filter.name
   }
 }))
-const { result: countResult } = useQuery<ProductsCount, ProductsCountVariables>(PRODUCTS_COUNT, countFilter)
+const { result: countResult } = useQuery<ProductsCount, ProductsCountVariables>(PRODUCTS_COUNT, countFilter, { debounce: 300 })
 const count = computed(() => countResult.value?.productsCount || 0)
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-auto-animate>
     <products-item v-for="product in products" :key="product.id" :product="product" class="mb-7 last:mb-0" />
   </div>
 </template>
