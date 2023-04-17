@@ -41,11 +41,15 @@
               </a-form-item>
             </div>
 
-            <a-form-item name="description" class="!ml-7 w-full">
-              <creator-product-category v-model:value="form.category" />
+            <div class="!ml-7 w-full">
+              <a-form-item name="category" label="Category">
+                <creator-product-category v-model:value="form.category" />
+              </a-form-item>
 
-              <creator-product-tags v-model:value="form.tags" />
-            </a-form-item>
+              <a-form-item name="tags" label="Tags">
+                <creator-product-tags v-model:value="form.tags" />
+              </a-form-item>
+            </div>
           </div>
 
           <a-form-item name="content">
@@ -98,6 +102,37 @@ const rules = computed(() => ({
     {
       required: true,
       message: 'Vui lòng nhập ảnh đại diện'
+    }
+  ],
+  price: [
+    {
+      required: true,
+      message: 'Vui lòng nhập giá'
+    }
+  ],
+  // optional sale, if sale > 0, then price = price - sale
+  sale: [
+    {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      validator: (rule: any, value: any, callback: (error?: Error) => void) => {
+        if (form.value.sale) {
+          const discountedPrice = form.value.price - form.value.sale
+          if (discountedPrice < 0) {
+            callback(new Error('Discounted price cannot be negative'))
+          } else {
+            form.value.sale = discountedPrice
+            callback()
+          }
+        } else {
+          callback()
+        }
+      }
+    }
+  ],
+  category: [
+    {
+      required: true,
+      message: 'Vui lòng nhập danh mục'
     }
   ]
 }))

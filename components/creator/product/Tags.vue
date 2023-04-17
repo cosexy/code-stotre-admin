@@ -1,23 +1,16 @@
 <template>
-  <a-form-item name="price" label="Category">
-    <a-select
-      v-model:value="_value"
-      mode="multiple"
-      show-search
-      placeholder="input search text"
-      :default-active-first-option="false"
-      :show-arrow="false"
-      :filter-option="false"
-      :not-found-content="null"
-      :options="categories"
-      @search="handleSearch"
-    />
-  </a-form-item>
+  <a-select
+    v-model:value="_value"
+    mode="tags"
+    show-search
+    placeholder="Select or input search text"
+    :options="categories"
+    @search="handleSearch"
+  />
 </template>
 
 <script lang="ts" setup>
 import { DefaultOptionType } from 'ant-design-vue/lib/vc-select/Select'
-import { CATEGORIES } from '~/apollo/queries/categories.query'
 import { Tags, TagsVariables } from '~/apollo/queries/__generated__/Tags'
 import { GET_TAGS } from '~/apollo/queries/tags.query'
 

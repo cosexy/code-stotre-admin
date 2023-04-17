@@ -1,17 +1,12 @@
 <template>
-  <a-form-item name="price" label="Category">
-    <a-select
-      v-model:value="_value"
-      show-search
-      placeholder="input search text"
-      :default-active-first-option="false"
-      :show-arrow="false"
-      :filter-option="false"
-      :not-found-content="null"
-      :options="categories"
-      @search="handleSearch"
-    />
-  </a-form-item>
+  <a-select
+    v-model:value="_value"
+    show-search
+    placeholder="Select or input search text"
+    allow-clear
+    :options="categories"
+    @search="handleSearch"
+  />
 </template>
 
 <script lang="ts" setup>
