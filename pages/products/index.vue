@@ -10,13 +10,11 @@
       </a-button>
     </includes-teleport>
 
-    <div class="px-5">
-      <products-search v-model:value="vars.filter" />
+    <products-search v-model:value="vars.filter" />
 
-      <client-only>
-        <products-list :products="products" class="mt-6" />
-      </client-only>
-    </div>
+    <client-only>
+      <products-list :products="products" class="mt-6" />
+    </client-only>
   </div>
 </template>
 

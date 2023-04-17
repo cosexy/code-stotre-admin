@@ -10,7 +10,7 @@
       </a-button>
     </includes-teleport>
 
-    <posts-list :posts="posts" class="mt-5 px-5" />
+    <posts-list :posts="posts" class="mt-5" />
   </div>
 </template>
 

@@ -4,7 +4,7 @@
       <input
         v-model="_value.name"
         type="text"
-        class="_name relative z-[1] text-[22px]"
+        class="_name relative z-[1] bg-transparent text-[22px]"
         placeholder="Products name"
       >
 

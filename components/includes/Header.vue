@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-center">
+  <header class="flex items-center pl-10">
     <!--    <button v-if="history.length" class="mr-3" @click="goBack">-->
     <!--      <Icon name="ic:round-arrow-back" size="28" />-->
     <!--    </button>-->

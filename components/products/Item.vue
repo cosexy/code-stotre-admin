@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="{
-      name: 'blogs-id',
+      name: 'products-id',
       params: {
         id: product.slug
       }
