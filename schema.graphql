@@ -253,8 +253,9 @@ input UpdateProductInput {
   category: ID
   content: JSON
   description: String
+  id: ID!
   name: String
-  price: Float!
+  price: Int
   sale: Int
   tags: [String!]
 }

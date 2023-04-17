@@ -83,10 +83,11 @@
 import { FormInstance } from 'ant-design-vue/lib/form'
 import { CreateProductInput } from '~/apollo/__generated__/serverTypes'
 import { ImageEntity } from '~/apollo/queries/__generated__/ImageEntity'
-import { CREATE_PROJECT } from '~/apollo/mutations/project.mutation'
+import { CREATE_PROJECT, UPDATE_PRODUCT } from '~/apollo/mutations/project.mutation'
 import { CreateProduct, CreateProductVariables } from '~/apollo/mutations/__generated__/CreateProduct'
 import { Product, Product_product, ProductVariables } from '~/apollo/queries/__generated__/Product'
 import { PRODUCT } from '~/apollo/queries/projects.query'
+import { UpdateProduct, UpdateProductVariables } from '~/apollo/mutations/__generated__/UpdateProduct'
 
 const form = ref<CreateProductInput>({
   avatar: '',
@@ -206,30 +207,32 @@ if (isEdit.value) {
 }
 
 const { mutate: createProduct } = useMutation<CreateProduct, CreateProductVariables>(CREATE_PROJECT)
+const { mutate: updateProduct } = useMutation<UpdateProduct, UpdateProductVariables>(UPDATE_PRODUCT)
 
 const publish = async () => {
   try {
     await formRef.value?.validate()
     if (!isEdit.value) {
-      console.log(form.value)
       await createProduct({
         input: form.value
       })
-      // await createPost({
-      //   input: form.value
-      // })
     } else {
-      // const _currentPost = client.readQuery<Post, PostVariables>({
-      //   query: GET_POST,
-      //   variables: {
-      //     filter: {
-      //       slug: String(route.params.id)
-      //     }
-      //   }
-      // })
-      // if (_currentPost?.post) {
-      //
-      // }
+      const _currentPost = client.readQuery<Product, ProductVariables>({
+        query: PRODUCT,
+        variables: {
+          filter: {
+            slug: String(route.params.id)
+          }
+        }
+      })
+      if (_currentPost?.product) {
+        await updateProduct({
+          input: {
+            ...form.value,
+            id: _currentPost.product.id
+          }
+        })
+      }
     }
   } catch (e) {
     //

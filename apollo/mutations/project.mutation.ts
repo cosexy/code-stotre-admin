@@ -7,3 +7,28 @@ export const CREATE_PROJECT = gql`
         }
     }
 `
+
+export const UPDATE_PRODUCT = gql`
+    mutation UpdateProduct($input: UpdateProductInput!) {
+        updateProduct(input: $input) {
+            id
+            avatar {
+                id
+                path
+            }
+            name
+            sale
+            price
+            description
+            content
+            category {
+                id
+                name
+            }
+            tags {
+                id
+                name
+            }
+        }
+    }
+`
