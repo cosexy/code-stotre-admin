@@ -1,13 +1,13 @@
 <template>
   <div>
     <includes-teleport to="#title">
-      Create new product
+      {{ isEdit ? 'Edit product' : 'Create product' }}
     </includes-teleport>
 
     <includes-teleport to="#actions">
       <a-popconfirm
         v-if="isEdit"
-        title="Are you sure delete this post?"
+        title="Are you sure delete this product?"
         ok-text="Yes"
         cancel-text="No"
       >
@@ -53,7 +53,7 @@
               </a-form-item>
 
               <a-form-item name="sale" label="Sale">
-                <a-input-number v-model:value="form.sale"  class="!w-full" />
+                <a-input-number v-model:value="form.sale" class="!w-full" />
               </a-form-item>
             </div>
 
@@ -85,6 +85,8 @@ import { CreateProductInput } from '~/apollo/__generated__/serverTypes'
 import { ImageEntity } from '~/apollo/queries/__generated__/ImageEntity'
 import { CREATE_PROJECT } from '~/apollo/mutations/project.mutation'
 import { CreateProduct, CreateProductVariables } from '~/apollo/mutations/__generated__/CreateProduct'
+import { Product, Product_product, ProductVariables } from '~/apollo/queries/__generated__/Product'
+import { PRODUCT } from '~/apollo/queries/projects.query'
 
 const form = ref<CreateProductInput>({
   avatar: '',
@@ -141,7 +143,7 @@ const rules = computed(() => ({
           const discountedPrice = form.value.price - form.value.sale
           if (discountedPrice < 0) {
             // eslint-disable-next-line prefer-promise-reject-errors
-            return Promise.reject('Discounted price cannot be negative');
+            return Promise.reject('Discounted price cannot be negative')
           } else {
             return Promise.resolve()
           }
@@ -160,9 +162,48 @@ const rules = computed(() => ({
 }))
 
 const formRef = ref<FormInstance>()
+const { client } = useApolloClient()
 const route = useRoute()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const router = useRouter()
-const isEdit = computed(() => route.name === 'products-id')
+const isEdit = computed(() => route.name === 'creator-product-id')
+
+if (isEdit.value) {
+  const { data } = await useAsyncQuery<Product>(PRODUCT, {
+    filter: {
+      slug: String(route.params.id)
+    }
+  })
+
+  const _raw = data.value?.product
+
+  if (_raw) {
+    const _form: Partial<Product_product> = JSON.parse(JSON.stringify(_raw))
+    delete _form.__typename
+    delete _form.id
+
+    // @ts-ignore
+    form.value = {
+      ..._form,
+      avatar: _raw.avatar.id,
+      category: _raw.category.id,
+      tags: _raw.tags.map((tag) => tag.name)
+    }
+    imageForm.value = _form.avatar
+
+    client.writeQuery<Product, ProductVariables>({
+      query: PRODUCT,
+      variables: {
+        filter: {
+          slug: String(route.params.id)
+        }
+      },
+      data: {
+        product: data.value!.product
+      }
+    })
+  }
+}
 
 const { mutate: createProduct } = useMutation<CreateProduct, CreateProductVariables>(CREATE_PROJECT)
 

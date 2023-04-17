@@ -72,6 +72,12 @@ export default defineNuxtConfig({
             path: '/blogs/:id',
             file: page.file
           })
+        } else if (page.name === 'creator-product') {
+          pages.push({
+            name: 'creator-product-id',
+            path: '/creator/product/:id',
+            file: page.file
+          })
         }
       }
     }

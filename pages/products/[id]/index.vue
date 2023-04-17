@@ -6,7 +6,7 @@
 
     <includes-teleport to="#actions">
       <a-popconfirm
-        title="Are you sure delete this post?"
+        title="Are you sure delete this product?"
         ok-text="Yes"
         cancel-text="No"
       >
@@ -14,7 +14,7 @@
           DELETE
         </a-button>
       </a-popconfirm>
-      <a-button type="primary" shape="round" class="ml-3">
+      <a-button type="primary" shape="round" class="ml-3" @click="$router.push({ name: 'creator-product-id', params: { id: $route.params.id } })">
         EDIT
       </a-button>
     </includes-teleport>

@@ -94,6 +94,10 @@ input GetCountProductsFilter {
   tags: [ID!]
 }
 
+input GetProductFilter {
+  slug: String!
+}
+
 input GetProductsFilter {
   category: ID
   limit: Int!
@@ -192,7 +196,7 @@ type Query {
   me: User!
   post(filter: PostFilter!): Post!
   posts(filter: PostsFilter!): [Post!]!
-  product(filter: GetProductsFilter!): Product!
+  product(filter: GetProductFilter!): Product!
   products(filter: GetProductsFilter!): [Product!]!
   productsCount(filter: GetCountProductsFilter!): Float!
   tags(filter: GetCategoriesFilter!): [Tag!]!
