@@ -194,6 +194,7 @@ type Query {
   posts(filter: PostsFilter!): [Post!]!
   product(filter: GetProductsFilter!): Product!
   products(filter: GetProductsFilter!): [Product!]!
+  tags(filter: GetCategoriesFilter!): [Tag!]!
 }
 
 input RemoveCategoryInput {

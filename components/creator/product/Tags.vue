@@ -18,7 +18,8 @@
 <script lang="ts" setup>
 import { DefaultOptionType } from 'ant-design-vue/lib/vc-select/Select'
 import { CATEGORIES } from '~/apollo/queries/categories.query'
-import { Categories, CategoriesVariables } from '~/apollo/queries/__generated__/Categories'
+import { Tags, TagsVariables } from '~/apollo/queries/__generated__/Tags'
+import { GET_TAGS } from '~/apollo/queries/tags.query'
 
 const props = defineProps<{
   value: string[]
@@ -30,7 +31,7 @@ const emit = defineEmits<{
 }>()
 const _value = useVModel(props, 'value', emit)
 
-const categoriesVars = ref<CategoriesVariables>({
+const categoriesVars = ref<TagsVariables>({
   filter: {
     name: '',
     limit: 10,
@@ -41,10 +42,10 @@ const categoriesVars = ref<CategoriesVariables>({
 
 const handleSearch = (val: string) => categoriesVars.value.filter.name = val
 
-const { result } = useQuery<Categories, CategoriesVariables>(CATEGORIES, categoriesVars, {
+const { result } = useQuery<Tags, TagsVariables>(GET_TAGS, categoriesVars, {
   debounce: 500
 })
-const categories = computed<DefaultOptionType[]>(() => (result.value?.categories || []).map((category) => ({ label: category.name, value: category.id })) || [])
+const categories = computed<DefaultOptionType[]>(() => (result.value?.tags || []).map((category) => ({ label: category.name, value: category.name })) || [])
 </script>
 
 <style scoped></style>
